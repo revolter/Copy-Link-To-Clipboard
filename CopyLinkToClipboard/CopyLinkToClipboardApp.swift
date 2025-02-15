@@ -16,8 +16,13 @@ struct CopyLinkToClipboardApp: App {
 			}
 				.hidden()
 				.onOpenURL(perform: { url in
-					NSPasteboard.general.declareTypes([.URL], owner: nil)
-					NSPasteboard.general.setString(url.absoluteString, forType: .URL)
+					let item = NSPasteboardItem()
+					item.setString(url.absoluteString, forType: .URL)
+					item.setString(url.absoluteString, forType: .string)
+
+					let pasteboard = NSPasteboard.general
+					pasteboard.clearContents()
+					pasteboard.writeObjects([item])
 
 					exit(0)
 				})
